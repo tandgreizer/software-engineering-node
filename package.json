@@ -10,7 +10,7 @@
     "postinstall": "npm run build",
     "dev": "nodemon server.ts"
   },
-  "author": "",
+  "author": "tim",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.1",
