@@ -5,8 +5,8 @@ import Tuit2Topic from "../models/Tuit2Topic";
 const TuitSchema = new mongoose.Schema({
     tuit: String,
     postedOn: Date,
-    postedBy: User,
-    tuit2tags: [Tuit2Tag],
-    tuit2topic: [Tuit2Topic]
+    postedBy: String,
+     //tuit2tags: [Tuit2Tag],
+     //tuit2topic: [Tuit2Topic]
 }, {collection: 'tuits'});
 export default TuitSchema;
