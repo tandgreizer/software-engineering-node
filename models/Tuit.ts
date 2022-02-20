@@ -1,12 +1,14 @@
 import User from "./User";
-import Tuit2Tag from "./Tuit2Tag";
-import Tuit2Topic from "./Tuit2Topic";
+import Stats from "./Stats";
 
-export default class Tuit {
-  private tuit: string = '';
-  private postedOn: Date = new Date();
-  private postedBy: string = '';
-  private tuit2tags: Tuit2Tag[] = [];
-  private tuit2topic: Tuit2Topic[] = [];
-}
+export default interface Tuit {
+  tuit: string,
+  postedBy: User,
+  postedOn?: Date,
+  image?: String,
+  youtube?: String,
+  avatarLogo?: String,
+  imageOverlay?: String,
+  stats: Stats
+};
 

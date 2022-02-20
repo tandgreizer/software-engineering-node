@@ -27,7 +27,7 @@ res.send('Welcome'));
 const userController = new UserController(app,new UserDao());
 const tuitController = new TuitController(app, new TuitDao());
 
-
+console.log("STarting up");
 
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
