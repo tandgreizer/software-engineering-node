@@ -12,5 +12,6 @@ app.get('/hello', (req, res) =>
 require('controllers/TuitController')(app);
 require('controllers/UserController')(app);
 
+console.log("uh oh");
 const PORT = 4000;
 app.listen(PORT);

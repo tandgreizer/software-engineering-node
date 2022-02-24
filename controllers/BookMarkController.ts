@@ -2,8 +2,8 @@
  * @file Controller RESTful Web service API for likes resource
  */
 import {Express, Request, Response} from "express";
-import LikeDao from "../daos/LikeDao";
-import LikeControllerI from "../interfaces/LikeControllerI";
+import BookmarkDao from "../daos/BookmarkDao";
+import BookmarkControllerI from "../interfaces/BookmarkControllerI";
 
 /**
  * @class TuitController Implements RESTful Web service API for likes resource.
@@ -22,38 +22,27 @@ import LikeControllerI from "../interfaces/LikeControllerI";
  * @property {LikeController} LikeController Singleton controller implementing
  * RESTful Web service API
  */
-export default class LikeController implements LikeControllerI {
-    private static likeDao: LikeDao = LikeDao.getInstance();
-    private static likeController: LikeController | null = null;
+export default class BookMarkController implements BookmarkControllerI {
+    private static bookmarkDao: BookmarkDao = BookmarkDao.getInstance();
+    private static bookmarkController: BookMarkController | null = null;
     /**
      * Creates singleton controller instance
      * @param {Express} app Express instance to declare the RESTful Web service
      * API
      * @return TuitController
      */
-    public static getInstance = (app: Express): LikeController => {
-        if(LikeController.likeController === null) {
-            LikeController.likeController = new LikeController();
-            app.get("/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
-            app.get("/tuits/:tid/likes", LikeController.likeController.findAllUsersThatLikedTuit);
-            app.post("/users/:uid/likes/:tid", LikeController.likeController.userLikesTuit);
-            app.delete("/users/:uid/unlikes/:tid", LikeController.likeController.userUnlikesTuit);
+    public static getInstance = (app: Express): BookMarkController => {
+        if(BookMarkController.bookmarkController === null) {
+            BookMarkController.bookmarkController = new BookMarkController();
+            app.get("/users/:uid/bookmarks", BookMarkController.bookmarkController.myBookmarks);
+            app.post("/users/:uid/bookmarks/:tid", BookMarkController.bookmarkController.bookmark);
+            app.delete("/users/:uid/bookmarks/:tid", BookMarkController.bookmarkController.unmark);
         }
-        return LikeController.likeController;
+        return BookMarkController.bookmarkController;
     }
 
     private constructor() {}
 
-    /**
-     * Retrieves all users that liked a tuit from the database
-     * @param {Request} req Represents request from client, including the path
-     * parameter tid representing the liked tuit
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the user objects
-     */
-    findAllUsersThatLikedTuit = (req: Request, res: Response) =>
-        LikeController.likeDao.findAllUsersThatLikedTuit(req.params.tid)
-            .then(likes => res.json(likes));
 
     /**
      * Retrieves all tuits liked by a user from the database
@@ -62,9 +51,9 @@ export default class LikeController implements LikeControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the tuit objects that were liked
      */
-    findAllTuitsLikedByUser = (req: Request, res: Response) =>
-        LikeController.likeDao.findAllTuitsLikedByUser(req.params.uid)
-            .then(likes => res.json(likes));
+    myBookmarks = (req: Request, res: Response) =>
+        BookMarkController.bookmarkDao.myBookmarks(req.params.uid)
+            .then(bookmarks => res.json(bookmarks));
 
     /**
      * @param {Request} req Represents request from client, including the
@@ -74,9 +63,9 @@ export default class LikeController implements LikeControllerI {
      * body formatted as JSON containing the new likes that was inserted in the
      * database
      */
-    userLikesTuit = (req: Request, res: Response) =>
-        LikeController.likeDao.userLikesTuit(req.params.uid, req.params.tid)
-            .then(likes => res.json(likes));
+    bookmark = (req: Request, res: Response) =>
+        BookMarkController.bookmarkDao.bookmark(req.params.uid, req.params.tid)
+            .then(bookmark => res.json(bookmark));
 
     /**
      * @param {Request} req Represents request from client, including the
@@ -85,7 +74,7 @@ export default class LikeController implements LikeControllerI {
      * @param {Response} res Represents response to client, including status
      * on whether deleting the like was successful or not
      */
-    userUnlikesTuit = (req: Request, res: Response) =>
-        LikeController.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
+    unmark = (req: Request, res: Response) =>
+        BookMarkController.bookmarkDao.unmark(req.params.uid, req.params.tid)
             .then(status => res.send(status));
 };
