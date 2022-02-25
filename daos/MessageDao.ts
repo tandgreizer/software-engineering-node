@@ -2,41 +2,56 @@ import MessageDaoI from "../interfaces/MessageDaoI";
 
 import Follow from "../models/Follow";
 import MessageModel from "../mongoose/messages/MessageModel";
+import Message from "../models/Message";
+
 export default class MessageDao implements MessageDaoI {
-    private static messageDao: MessageDao | null = null;
-    public static getInstance = (): MessageDao => {
-        if(MessageDao.messageDao === null) {
-            MessageDao.messageDao = new MessageDao();
-        }
-        return MessageDao.messageDao;
+  private static messageDao: MessageDao | null = null;
+  public static getInstance = (): MessageDao => {
+    if (MessageDao.messageDao === null) {
+      MessageDao.messageDao = new MessageDao();
     }
-    private constructor() {}
+    return MessageDao.messageDao;
+  }
 
-    messageUser = async (uid1: string, uid2: string): Promise<any> =>{
-        return  MessageModel.create({fromUser: uid1, toUser: uid2});
-    }
+  private constructor() {
+  }
+
+  /**
+   * Creates a message
+   * @param message the message to be created
+   */
+  messageUser = async (message: Message): Promise<any> => {
+    return MessageModel.create(Message);
+  }
 
 
+  /**
+   * Deteles a message
+   * @param mid the id of the message to delete
+   */
+  deleteMessage = async (mid: string): Promise<any> => {
+    MessageModel.deleteOne({_id: mid});
+  }
 
-    deleteMessage = async (mid: string): Promise<any> =>{
-        MessageModel.deleteOne({_id: mid});
-    }
+  /**
+   * Gets all the messages a user has sent
+   * @param uid the user id
+   */
+  messagesISent = async (uid: string): Promise<any> => {
+    return MessageModel
+    .find({fromUser: uid})
+    .populate("toUser")
+    .exec();
+  }
 
-
-
-
-
-    messagesISent = async (uid: string): Promise<any> =>{
-        return  MessageModel
-            .find({fromUser: uid})
-            .populate("toUser")
-            .exec();
-    }
-
-    messagesSentToMe = async (uid: string): Promise<any> =>{
-        return  MessageModel
-            .find({toUser: uid})
-            .populate("fromUser")
-            .exec();
-    }
+  /**
+   * Gets all the messages a user has recieved
+   * @param uid the user id
+   */
+  messagesSentToMe = async (uid: string): Promise<any> => {
+    return MessageModel
+    .find({toUser: uid})
+    .populate("fromUser")
+    .exec();
+  }
 }

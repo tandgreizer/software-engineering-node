@@ -45,11 +45,10 @@ export default class BookMarkController implements BookmarkControllerI {
 
 
     /**
-     * Retrieves all tuits liked by a user from the database
-     * @param {Request} req Represents request from client, including the path
-     * parameter uid representing the user liked the tuits
+     * Retrieves all bookmarks liked by a user from the database
+     * @param {Request} req Represents request from client
      * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the tuit objects that were liked
+     * body formatted as JSON arrays
      */
     myBookmarks = (req: Request, res: Response) =>
         BookMarkController.bookmarkDao.myBookmarks(req.params.uid)

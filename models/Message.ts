@@ -1,18 +1,19 @@
 /**
- * @file Declares Follow data type representing relationship between
- * users and users, as in user follows a users
+ * @file Declares Message data type representing a message between
+ * users
  */
 
 import User from "./User";
 
 /**
- * @typedef Follow Represents Follow relationship between a user and a tuit,
- * as in a user likes a tuit
- * @property {User} User following the other
- * @property {User} User being followed
+ * @typedef Message Represents a message between users,
+ *
+ * @property {User} fromUser following the other
+ * @property {User} toUser being followed
+ * @property {String} message the message body
  */
 
-export default interface Follow {
+export default interface Message {
     fromUser: User,
     toUser: User,
     message: string

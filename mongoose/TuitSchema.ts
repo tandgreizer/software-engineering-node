@@ -6,7 +6,5 @@ const TuitSchema = new mongoose.Schema({
     tuit: String,
     postedOn: Date,
     postedBy: String,
-     //tuit2tags: [Tuit2Tag],
-     //tuit2topic: [Tuit2Topic]
 }, {collection: 'tuits'});
 export default TuitSchema;

@@ -6,8 +6,7 @@
 import User from "./User";
 
 /**
- * @typedef Follow Represents Follow relationship between a user and a tuit,
- * as in a user likes a tuit
+ * @typedef Follow Represents Follow relationship between a user and another user
  * @property {User} User following the other
  * @property {User} User being followed
  */

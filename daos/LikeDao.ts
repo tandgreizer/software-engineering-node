@@ -10,18 +10,37 @@ export default class LikeDao implements LikeDaoI {
         return LikeDao.likeDao;
     }
     private constructor() {}
+
+  /**
+   * Returns all the users that have liked a tuit
+   * @param tid the id of the tuit
+   */
     findAllUsersThatLikedTuit = async (tid: string): Promise<Like[]> =>
         LikeModel
             .find({tuit: tid})
             .populate("likedBy")
             .exec();
-    findAllTuitsLikedByUser = async (uid: string): Promise<Like[]> =>
+  /**
+   * Returns all the tuits liked by a users
+   * @param uid the id of the user
+   */
+  findAllTuitsLikedByUser = async (uid: string): Promise<Like[]> =>
         LikeModel
             .find({likedBy: uid})
             .populate("tuit")
             .exec();
+  /**
+   * Tells the database a user has liked a tuit
+   * @param uid the user
+   * @param tid the tuit
+   */
     userLikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.create({tuit: tid, likedBy: uid});
+  /**
+   * Tell the database a user has unliked a tuit
+   * @param uid the user
+   * @param tid the tuit
+   */
     userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});
 }

@@ -27,18 +27,35 @@ export default class FollowController implements FollowControllerI {
 
     private constructor() {}
 
+    /**
+     * Follows a user
+     * @param req the request
+     * @param res the response
+     */
     followUser = (req: Request, res: Response) =>
         FollowController.followDao.followUser(req.params.uid1, req.params.uid2)
             .then(follow => res.json(follow));
-
+    /**
+     * unfollows a user
+     * @param req the request
+     * @param res the resposne
+     */
     unfollowUser= (req: Request, res: Response) =>
         FollowController.followDao.unfollowUser(req.params.uid1, req.params.uid2)
             .then(status => res.send(status));
-
+    /**
+     * Returns who the user follows
+     * @param req the request
+     * @param res the response
+     */
     whoDoIFollow= (req: Request, res: Response) =>
         FollowController.followDao.whoDoIFollow(req.params.uid)
             .then(follow => res.json(follow));
-
+    /**
+     * returns who follows the user
+     * @param req the request
+     * @param res the response
+     */
     whoFollowsMe= (req: Request, res: Response) =>
         FollowController.followDao.whoFollowsMe(req.params.uid)
             .then(follow => res.json(follow));
