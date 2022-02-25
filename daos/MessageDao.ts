@@ -21,7 +21,7 @@ export default class MessageDao implements MessageDaoI {
    * @param message the message to be created
    */
   messageUser = async (message: Message): Promise<any> => {
-    return MessageModel.create(Message);
+    return MessageModel.create(message);
   }
 
 
@@ -53,5 +53,16 @@ export default class MessageDao implements MessageDaoI {
     .find({toUser: uid})
     .populate("fromUser")
     .exec();
+  }
+
+  deleteAllMessages = async (): Promise<any> => {
+    return MessageModel
+        .deleteMany({})
+  }
+
+  getAllMessages= async (): Promise<any> => {
+    return MessageModel
+        .find()
+        .exec();
   }
 }

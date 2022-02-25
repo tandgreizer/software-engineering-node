@@ -11,6 +11,9 @@ export default interface FollowDaoI {
     whoDoIFollow (uid: string): Promise<Follow[]>;
     whoFollowsMe (uid: string): Promise<Follow[]>;
 
+    getAllFollows (): Promise<any>;
+    deleteAllFollows (): Promise<any>;
+
     // followFollowers (uid1: string, uid2: string): Promise<Follow[]>;
     // followFollowies (uid1: string, uid2: string): Promise<Follow[]>;
 

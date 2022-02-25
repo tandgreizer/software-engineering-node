@@ -8,7 +8,8 @@ import Bookmark from "../models/Bookmark";
 export default interface BookmarkDaoI {
     bookmark (uid1: string, tuid: string): Promise<Bookmark>;
     unmark (uid1: string, tuid: string): Promise<any>;
-
+    getAllBookmarks (): Promise <any>;
+    deleteAllBookmarks (): Promise <any>;
     myBookmarks (uid: string): Promise<Bookmark[]>;
 
 

@@ -4,5 +4,7 @@ export default interface BookmarkControllerI {
     bookmark (req: Request, res: Response): void;
     unmark (req: Request, res: Response): void;
     myBookmarks (req: Request, res: Response): void;
+    getAllBookmarks (req: Request, res: Response): void;
+    deleteAllBookmarks (req: Request, res: Response): void;
 
 };

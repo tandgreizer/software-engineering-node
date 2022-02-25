@@ -42,5 +42,14 @@ export default class BookmarkDao implements BookmarkDaoI {
             .exec();
     }
 
+    getAllBookmarks = async (): Promise<any> =>{
+        return  BookMarkModel
+            .find().exec();
+    }
+    deleteAllBookmarks = async (): Promise<any> =>{
+        return  BookMarkModel
+            .deleteMany({});
+    }
+
 
 }

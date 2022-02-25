@@ -37,6 +37,9 @@ export default class BookMarkController implements BookmarkControllerI {
             app.get("/users/:uid/bookmarks", BookMarkController.bookmarkController.myBookmarks);
             app.post("/users/:uid/bookmarks/:tid", BookMarkController.bookmarkController.bookmark);
             app.delete("/users/:uid/bookmarks/:tid", BookMarkController.bookmarkController.unmark);
+            app.get("/bookmarks", BookMarkController.bookmarkController.getAllBookmarks);
+            app.delete("/bookmarks", BookMarkController.bookmarkController.deleteAllBookmarks);
+
         }
         return BookMarkController.bookmarkController;
     }
@@ -75,5 +78,13 @@ export default class BookMarkController implements BookmarkControllerI {
      */
     unmark = (req: Request, res: Response) =>
         BookMarkController.bookmarkDao.unmark(req.params.uid, req.params.tid)
+            .then(status => res.send(status));
+
+    deleteAllBookmarks = (req: Request, res: Response) =>
+        BookMarkController.bookmarkDao.deleteAllBookmarks()
+            .then(status => res.send(status));
+
+    getAllBookmarks = (req: Request, res: Response) =>
+        BookMarkController.bookmarkDao.getAllBookmarks()
             .then(status => res.send(status));
 };

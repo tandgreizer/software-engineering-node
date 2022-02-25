@@ -11,6 +11,9 @@ export default interface MessageDaoI {
     messagesISent (uid: string): Promise<Message[]>;
     messagesSentToMe (uid: string): Promise<Message[]>;
 
+    deleteAllMessages (): Promise<any>;
+    getAllMessages (): Promise<any>;
+
     // followFollowers (uid1: string, uid2: string): Promise<Follow[]>;
     // followFollowies (uid1: string, uid2: string): Promise<Follow[]>;
 

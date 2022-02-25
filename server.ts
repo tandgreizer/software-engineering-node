@@ -7,6 +7,7 @@ import TuitDao from "./daos/TuitDao";
 import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookMarkController from "./controllers/BookMarkController";
+import MessageController from "./controllers/MessageController";
 
 
 const app = express();
@@ -32,6 +33,7 @@ const tuitController = new TuitController(app, new TuitDao());
 const likesController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookMarkController.getInstance(app);
+const messageController = MessageController.getInstance(app);
 
 console.log("Starting up");
 

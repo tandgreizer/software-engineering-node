@@ -12,6 +12,8 @@ export default class FollowDao implements FollowDaoI {
     }
     private constructor() {}
 
+
+
     /**
      * Follows a user with another user
      * @param uid1 the user who is a follower
@@ -51,5 +53,15 @@ export default class FollowDao implements FollowDaoI {
             .find({followie: uid})
             .populate("follower")
             .exec();
+    }
+
+    getAllFollows = async (): Promise<any> =>{
+        return  FollowModel
+            .find()
+            .exec();
+    }
+    deleteAllFollows = async (): Promise<any> =>{
+        return  FollowModel
+            .deleteMany({});
     }
 }

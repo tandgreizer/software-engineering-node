@@ -17,9 +17,12 @@ export default class FollowController implements FollowControllerI {
         if (FollowController.followController === null) {
             FollowController.followController = new FollowController();
             app.get("/users/:uid/follows", FollowController.followController.whoDoIFollow);
-            app.get("/tuits/follows/:uid", FollowController.followController.whoFollowsMe);
+            app.get("/users/follows/:uid", FollowController.followController.whoFollowsMe);
             app.post("/users/:uid1/follows/:uid2", FollowController.followController.followUser);
             app.delete("/users/:uid1/follows/:uid2", FollowController.followController.unfollowUser);
+            app.get("/follows", FollowController.followController.getAllFollows);
+            app.delete("/follows", FollowController.followController.deleteAllFollows);
+
         }
         return FollowController.followController;
     }
@@ -58,6 +61,14 @@ export default class FollowController implements FollowControllerI {
      */
     whoFollowsMe= (req: Request, res: Response) =>
         FollowController.followDao.whoFollowsMe(req.params.uid)
+            .then(follow => res.json(follow));
+
+    deleteAllFollows = (req: Request, res: Response) =>
+        FollowController.followDao.deleteAllFollows()
+            .then(status => res.json(status));
+
+    getAllFollows = (req: Request, res: Response) =>
+        FollowController.followDao.getAllFollows()
             .then(follow => res.json(follow));
 
 
