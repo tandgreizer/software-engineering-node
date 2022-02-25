@@ -26,7 +26,7 @@ app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
 
 app.get('/', (req:Request, res: Response) =>
-res.send('Welcome'));
+res.send('Welcome To A2'));
 
 const userController = new UserController(app,new UserDao());
 const tuitController = new TuitController(app, new TuitDao());
