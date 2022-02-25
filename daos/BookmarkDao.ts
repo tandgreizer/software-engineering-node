@@ -2,6 +2,9 @@ import BookmarkDaoI from "../interfaces/BookmarkDaoI";
 import Follow from "../models/Follow";
 import BookMarkModel from "../mongoose/bookmarks/BookMarkModel";
 
+/**
+ * The data access object for bookmarks
+ */
 export default class BookmarkDao implements BookmarkDaoI {
     private static bookmarkDao: BookmarkDao | null = null;
     public static getInstance = (): BookmarkDao => {
@@ -42,10 +45,16 @@ export default class BookmarkDao implements BookmarkDaoI {
             .exec();
     }
 
+    /**
+     * Gets all the bookmarks
+     */
     getAllBookmarks = async (): Promise<any> =>{
         return  BookMarkModel
             .find().exec();
     }
+    /**
+     * Deletes all the bookmarks
+     */
     deleteAllBookmarks = async (): Promise<any> =>{
         return  BookMarkModel
             .deleteMany({});

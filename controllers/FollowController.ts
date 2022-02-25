@@ -8,11 +8,17 @@ import {ParamsDictionary} from "express-serve-static-core";
 import {ParsedQs} from "qs";
 
 
-
+/**
+ * The follow controller
+ */
 export default class FollowController implements FollowControllerI {
     private static followDao: FollowDao = FollowDao.getInstance();
     private static followController: FollowController | null = null;
 
+    /**
+     * Returns an instance of the controller
+     * @param app the express app
+     */
     public static getInstance = (app: Express): FollowController => {
         if (FollowController.followController === null) {
             FollowController.followController = new FollowController();
@@ -63,10 +69,20 @@ export default class FollowController implements FollowControllerI {
         FollowController.followDao.whoFollowsMe(req.params.uid)
             .then(follow => res.json(follow));
 
+    /**
+     * Deletes all follow Objects
+     * @param req the request
+     * @param res the response
+     */
     deleteAllFollows = (req: Request, res: Response) =>
         FollowController.followDao.deleteAllFollows()
             .then(status => res.json(status));
 
+    /**
+     * Gets all the follow objects
+     * @param req the request
+     * @param res the response
+     */
     getAllFollows = (req: Request, res: Response) =>
         FollowController.followDao.getAllFollows()
             .then(follow => res.json(follow));

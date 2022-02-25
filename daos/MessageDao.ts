@@ -4,6 +4,9 @@ import Follow from "../models/Follow";
 import MessageModel from "../mongoose/messages/MessageModel";
 import Message from "../models/Message";
 
+/**
+ * The data access object for messages
+ */
 export default class MessageDao implements MessageDaoI {
   private static messageDao: MessageDao | null = null;
   public static getInstance = (): MessageDao => {
@@ -55,11 +58,17 @@ export default class MessageDao implements MessageDaoI {
     .exec();
   }
 
+  /**
+   * Deletes all the messages
+   */
   deleteAllMessages = async (): Promise<any> => {
     return MessageModel
         .deleteMany({})
   }
 
+  /**
+   * Gets all the messages
+   */
   getAllMessages= async (): Promise<any> => {
     return MessageModel
         .find()

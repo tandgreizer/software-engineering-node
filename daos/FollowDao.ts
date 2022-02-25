@@ -2,6 +2,10 @@ import FollowDaoI from "../interfaces/FollowDaoI";
 
 import Follow from "../models/Follow";
 import FollowModel from "../mongoose/follows/FollowModel";
+
+/**
+ * The data access object for Follows
+ */
 export default class FollowDao implements FollowDaoI {
     private static followDao: FollowDao | null = null;
     public static getInstance = (): FollowDao => {
@@ -55,11 +59,17 @@ export default class FollowDao implements FollowDaoI {
             .exec();
     }
 
+    /**
+     * Gets all the follows
+     */
     getAllFollows = async (): Promise<any> =>{
         return  FollowModel
             .find()
             .exec();
     }
+    /**
+     * Deletes all the follows
+     */
     deleteAllFollows = async (): Promise<any> =>{
         return  FollowModel
             .deleteMany({});

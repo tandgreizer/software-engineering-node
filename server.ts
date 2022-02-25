@@ -9,7 +9,9 @@ import FollowController from "./controllers/FollowController";
 import BookMarkController from "./controllers/BookMarkController";
 import MessageController from "./controllers/MessageController";
 
-
+/**
+ * @file The server file for the tuiter database. Allows access to controllers
+ */
 const app = express();
 const mongoose = require('mongoose');
 
