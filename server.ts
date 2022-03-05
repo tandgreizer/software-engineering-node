@@ -9,7 +9,7 @@ import TuitDao from "./daos/TuitDao";
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://tgreizer:Microbirdman159@cluster0.iy6fg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://asign2:asign2@cluster0.iy6fg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
 
 app.use(express.json());
 app.use(express.urlencoded());
