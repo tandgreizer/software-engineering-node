@@ -54,5 +54,9 @@ export default class TuitDao implements TuitDaoI {
     async deleteTuit(tid: string): Promise<any> {
         return await TuitModel.deleteOne({_id: tid});
     }
+
+    async deleteTuitByUser(postedBy: string): Promise<any> {
+        return await TuitModel.deleteOne({postedBy: postedBy});
+    }
 }
 

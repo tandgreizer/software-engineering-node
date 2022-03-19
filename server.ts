@@ -1,4 +1,5 @@
 import express, {Request, Response} from 'express';
+var cors = require('cors')
 
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
@@ -19,6 +20,16 @@ mongoose.connect("mongodb+srv://asign2:asign2@cluster0.dj9j0.mongodb.net/myFirst
 
 app.use(express.json());
 app.use(express.urlencoded());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
 
 
 app.get('/hello', (req: Request, res: Response) =>
