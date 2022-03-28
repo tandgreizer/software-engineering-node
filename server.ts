@@ -15,13 +15,14 @@ const session = require("express-session");
  * @file The server file for the tuiter database. Allows access to controllers
  */
 const app = express();
+const mongoose = require('mongoose');
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: "http://localhost:3000"
 
 }));
 
-const mongoose = require('mongoose');
+
 app.use(express.json());
 
 
@@ -61,7 +62,7 @@ app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
 
 app.get('/', (req:Request, res: Response) =>
-res.send('Welcome To A2'));
+res.send('Welcome To A4'));
 
 const userController = new UserController(app,new UserDao());
 const tuitController = new TuitController(app, new TuitDao());

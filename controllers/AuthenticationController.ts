@@ -1,4 +1,5 @@
 import UserDao from "../daos/UserDao";
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 import {Express, Request, Response} from "express";
@@ -12,19 +13,23 @@ const AuthenticationController = (app: Express) => {
         const username = user.username;
         const password = user.password;
         console.log(password)
-        const existingUser = await userDao
-            .findUserByUsername(username);
-        const match = await bcrypt.compare(password, existingUser.password);
-
-        if (match) {
-            existingUser.password = '*****';
-            // @ts-ignore
-            req.session['profile'] = existingUser;
-            res.json(existingUser);
-            console.log("sucsess")
+        if (password == null || username == null) {
+            res.sendStatus(400)
         } else {
-            res.sendStatus(403);
-            console.log("fail")
+            const existingUser = await userDao
+                .findUserByUsername(username);
+            const match = await bcrypt.compare(password, existingUser.password);
+
+            if (match) {
+                existingUser.password = '*****';
+                // @ts-ignore
+                req.session['profile'] = existingUser;
+                res.json(existingUser);
+                console.log("sucsess")
+            } else {
+                res.sendStatus(403);
+                console.log("fail")
+            }
         }
     }
 
