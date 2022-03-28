@@ -18,7 +18,7 @@ const app = express();
 const mongoose = require('mongoose');
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:3000/w"
+    origin: "http://localhost:3000"
 
 }));
 
@@ -32,7 +32,7 @@ let sess = {
         secure: false
     }
 }
-console.log(process.env)
+
 if (process.env.ENV === 'PRODUCTION') {
     app.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
