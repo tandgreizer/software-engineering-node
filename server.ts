@@ -9,16 +9,38 @@ import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookMarkController from "./controllers/BookMarkController";
 import MessageController from "./controllers/MessageController";
-
+import AuthenticationController from "./controllers/AuthenticationController";
+const session = require("express-session");
 /**
  * @file The server file for the tuiter database. Allows access to controllers
  */
 const app = express();
-const mongoose = require('mongoose');
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
 
+}));
+
+const mongoose = require('mongoose');
+app.use(express.json());
+
+
+let sess = {
+    secret: "secretTest",
+    cookie: {
+        secure: false
+    }
+}
+console.log(process.env)
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
 mongoose.connect("mongodb+srv://asign2:asign2@cluster0.dj9j0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
 
-app.use(express.json());
+
 app.use(express.urlencoded());
 
 app.use(function(req, res, next) {
@@ -47,6 +69,7 @@ const likesController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookMarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
+AuthenticationController(app);
 
 console.log("Starting up");
 
