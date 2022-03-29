@@ -18,7 +18,7 @@ const app = express();
 const mongoose = require('mongoose');
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:3000"
+    origin: "https://hardcore-ride-61a6cc.netlify.app"
 
 }));
 
