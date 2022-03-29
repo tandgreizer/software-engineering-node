@@ -23,7 +23,7 @@ app.use(cors({
 }));
 
 
-app.use(express.json());
+
 
 
 let sess = {
@@ -41,11 +41,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(session(sess))
+
+app.use(express.json());
+
 mongoose.connect("mongodb+srv://asign2:asign2@cluster0.dj9j0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
 
 
 app.use(express.urlencoded());
-
+/*
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers",
@@ -55,6 +58,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
+*/
 
 
 app.get('/hello', (req: Request, res: Response) =>
