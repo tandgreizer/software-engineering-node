@@ -27,15 +27,17 @@ app.use(express.json());
 
 
 let sess = {
-    secret: "secretTest",
+    secret: 'process.env.EXPRESS_SESSION_SECRET',
+    saveUninitialized: true,
+    resave: true,
     cookie: {
-        secure: false
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
     }
 }
 
-if (process.env.ENV === 'PRODUCTION') {
+if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
 }
 
 app.use(session(sess))
