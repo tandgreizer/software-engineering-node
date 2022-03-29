@@ -18,7 +18,7 @@ const app = express();
 const mongoose = require('mongoose');
 app.use(cors({
     credentials: true,
-    origin: "https://hardcore-ride-61a6cc.netlify.app"
+    origin: "https://hardcore-ride-61a6cc.netliffy.app"
 
 }));
 
