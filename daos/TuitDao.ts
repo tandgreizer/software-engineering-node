@@ -61,5 +61,13 @@ export default class TuitDao implements TuitDaoI {
     async deleteTuitByContent(content: string): Promise<any> {
         return await TuitModel.deleteOne({tuit: content});
     }
+
+    updateLikes =
+        async (tid, newStats) =>
+            TuitModel.updateOne(
+                {_id: tid},
+                {$set: {stats: newStats}});
+
+
 }
 

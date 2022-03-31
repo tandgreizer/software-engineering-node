@@ -60,7 +60,7 @@ export default class TuitController implements TuitControllerI {
           res.sendStatus(503);
           return;
       }
-      console.log(userId)
+      console.log(["the user id is: ",userId])
       this.tuitDao.findTuitsByUser(userId)
           .then((tuits: Tuit[]) => res.json(tuits));
   }
