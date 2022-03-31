@@ -32,12 +32,12 @@ export default class LikeDao implements LikeDaoI {
             .exec();
 
   findUserLikesTuit =
-      async (uid: string, tid: string) =>
+      async (uid: string, tid: string): Promise<any> =>
           LikeModel.findOne(
               {tuit: tid, likedBy: uid});
 
   countHowManyLikedTuit =
-      async (tid: string) =>
+      async (tid: string): Promise<any> =>
           LikeModel.count({tuit: tid});
 
 
@@ -73,11 +73,11 @@ export default class LikeDao implements LikeDaoI {
         DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
 
     findUserDisLikesTuit =
-        async (uid: string, tid: string) =>
+        async (uid: string, tid: string): Promise<any> =>
             DislikeModel.findOne(
                 {tuit: tid, dislikedBy: uid});
 
     countHowManyDisLikedTuit =
-        async (tid: string) =>
+        async (tid: string): Promise<any> =>
             DislikeModel.count({tuit: tid});
 }
