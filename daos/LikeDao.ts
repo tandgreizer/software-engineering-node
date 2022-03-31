@@ -1,6 +1,7 @@
 import LikeDaoI from "../interfaces/LikeDaoI";
 import LikeModel from "../mongoose/likes/LikeModel";
 import Like from "../models/Like";
+import DislikeModel from "../mongoose/dislikes/DislikeModel";
 export default class LikeDao implements LikeDaoI {
     private static likeDao: LikeDao | null = null;
     public static getInstance = (): LikeDao => {
@@ -31,12 +32,12 @@ export default class LikeDao implements LikeDaoI {
             .exec();
 
   findUserLikesTuit =
-      async (uid, tid) =>
+      async (uid: string, tid: string) =>
           LikeModel.findOne(
               {tuit: tid, likedBy: uid});
 
   countHowManyLikedTuit =
-      async (tid) =>
+      async (tid: string) =>
           LikeModel.count({tuit: tid});
 
 
@@ -55,4 +56,28 @@ export default class LikeDao implements LikeDaoI {
    */
     userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});
+
+    /**
+     * Tells the database a user has disliked a tuit
+     * @param uid the user
+     * @param tid the tuit
+     */
+    userDisLikesTuit = async (uid: string, tid: string): Promise<any> =>
+        DislikeModel.create({tuit: tid, dislikedBy: uid});
+    /**
+     * Tell the database a user has disliked a tuit
+     * @param uid the user
+     * @param tid the tuit
+     */
+    userUnDislikesTuit = async (uid: string, tid: string): Promise<any> =>
+        DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
+
+    findUserDisLikesTuit =
+        async (uid: string, tid: string) =>
+            DislikeModel.findOne(
+                {tuit: tid, dislikedBy: uid});
+
+    countHowManyDisLikedTuit =
+        async (tid: string) =>
+            DislikeModel.count({tuit: tid});
 }

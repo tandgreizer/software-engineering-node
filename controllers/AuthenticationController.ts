@@ -12,7 +12,6 @@ const AuthenticationController = (app: Express) => {
         const user = req.body;
         const username = user.username;
         const password = user.password;
-        console.log(password)
         if (password == null || username == null) {
             res.sendStatus(400)
         } else {
@@ -25,10 +24,10 @@ const AuthenticationController = (app: Express) => {
                 // @ts-ignore
                 req.session['profile'] = existingUser;
                 res.json(existingUser);
-                console.log("sucsess")
+
             } else {
                 res.sendStatus(403);
-                console.log("fail")
+
             }
         }
     }
@@ -61,7 +60,6 @@ const AuthenticationController = (app: Express) => {
             res.json(profile);
         } else {
             // @ts-ignore
-            console.log(req.session)
             res.sendStatus(403);
         }
     }

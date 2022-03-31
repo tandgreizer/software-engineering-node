@@ -18,7 +18,7 @@ export default class TuitDao implements TuitDaoI {
      * @param uid the id of the user
      */
     async findTuitsByUser(uid: string): Promise<any> {
-        TuitModel.find({postedBy: uid})
+        return await TuitModel.find({postedBy: uid})
 
     }
 
@@ -63,10 +63,11 @@ export default class TuitDao implements TuitDaoI {
     }
 
     updateLikes =
-        async (tid, newStats) =>
+        async (tid: string, newStats: any) =>
             TuitModel.updateOne(
                 {_id: tid},
                 {$set: {stats: newStats}});
+
 
 
 }

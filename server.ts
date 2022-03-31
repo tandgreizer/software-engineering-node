@@ -18,8 +18,8 @@ const app = express();
 const mongoose = require('mongoose');
 app.use(cors({
     credentials: true,
-    origin: "https://hardcore-ride-61a6cc.netlify.app"
-    //     origin: "http://localhost:3000"
+    // origin: "https://hardcore-ride-61a6cc.netlify.app"
+        origin: "http://localhost:3000"
 }));
 
 
@@ -78,7 +78,7 @@ const bookmarkController = BookMarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 AuthenticationController(app);
 
-console.log("Starting up");
+console.log("Server Ready");
 
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
