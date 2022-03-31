@@ -1,6 +1,7 @@
 import {Request, Response, Express} from "express";
 import TuitDao from "../daos/TuitDao";
 import TuitControllerI from "../interfaces/TuitController";
+import Tuit from "../models/Tuit";
 
 /**
  * Represents a Tuitcontroller object
@@ -49,9 +50,20 @@ export default class TuitController implements TuitControllerI {
     * @param req
    * @param res
    */
-  findTuitsByUser = (req: Request, res: Response) =>
-        this.tuitDao.findTuitsByUser(req.params.uid)
-            .then(tuits => res.json(tuits));
+  findTuitsByUser = (req: Request, res: Response) =>{
+      // @ts-ignore
+      let userId = (req.params.uid === "my" || req.params.uid === "me") && req.session['profile'] ?
+          // @ts-ignore
+          req.session['profile']._id : req.params.uid;
+      if (userId === "my") {
+          res.sendStatus(503);
+          return;
+      }
+      this.tuitDao.findTuitsByUser(userId)
+          .then((tuits: Tuit[]) => res.json(tuits));
+  }
+        // this.tuitDao.findTuitsByUser(req.params.uid)
+        //     .then(tuits => res.json(tuits));
   /**
    * Creates a tuit
    * @param req the request
