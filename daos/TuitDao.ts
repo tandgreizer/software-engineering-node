@@ -38,6 +38,9 @@ export default class TuitDao implements TuitDaoI {
         return await TuitModel.create(tuit);
     }
 
+    async createTuitByUser(uid: string, tuit: Tuit): Promise<Tuit> {
+        return await  TuitModel.create({...tuit, postedBy: uid});
+    }
     /**
      * Updates a tuit
      * @param tid the id of the tuit to update
