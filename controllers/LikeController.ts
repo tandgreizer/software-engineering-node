@@ -95,7 +95,7 @@ export default class LikeController implements LikeControllerI {
    * @param {Response} res Represents response to client, including status
    * on whether deleting the like was successful or not
    */
-  userUnlikesTuit = (req: Request, res: Response) => {
+  userUnlikesTuit = async (req: Request, res: Response) => {
     // @ts-ignore
     const profile = req.session['profile'];
     const userId = req.params.uid === "me" && profile ?
@@ -104,13 +104,19 @@ export default class LikeController implements LikeControllerI {
       res.sendStatus(503);
       return;
     }
-    console.log("Deleting Like")
+
 
     LikeController.likeDislikeDao.userUnlikesTuit(userId, req.params.tid)
-    .then(status => {console.log(status);res.send(status)});
+    .then(status => {res.send(status)});
+
+    let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
+    const howManyLikedTuit = await LikeController.likeDislikeDao.countHowManyLikedTuit(req.params.tid);
+    tuit.stats.likes = howManyLikedTuit;
+    await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
+    res.sendStatus(200);
   }
 
-  userUnDislikesTuit = (req: Request, res: Response) => {
+  userUnDislikesTuit = async (req: Request, res: Response) => {
     // @ts-ignore
     const profile = req.session['profile'];
     const userId = req.params.uid === "me" && profile ?
@@ -122,6 +128,12 @@ export default class LikeController implements LikeControllerI {
 
     LikeController.likeDislikeDao.userUnDislikesTuit(userId, req.params.tid)
     .then(status => res.send(status));
+
+    let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
+    const howManyDisLikedTuit = await LikeController.likeDislikeDao.countHowManyDisLikedTuit(req.params.tid);
+    tuit.stats.dislikes = howManyDisLikedTuit;
+    await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
+    res.sendStatus(200);
   }
   userTogglesTuitLikes = async (req: Request, res: Response) => {
     const likeDislikeDao = LikeController.likeDislikeDao;
