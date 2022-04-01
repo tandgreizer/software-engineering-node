@@ -206,6 +206,8 @@ export default class LikeController implements LikeControllerI {
     }
     try {
       const userAlreadyLikedTuit = await likeDislikeDao.findUserLikesTuit(userId, tid);
+      const userAlreadyDisLikedTuit = await likeDislikeDao.findUserDisLikesTuit(userId, tid);
+      const howManyDisLikedTuit = await likeDislikeDao.countHowManyDisLikedTuit(tid);
       const howManyLikedTuit = await likeDislikeDao.countHowManyLikedTuit(tid);
       let tuit = await tuitDao.findTuitById(tid);
       if (userAlreadyLikedTuit) {
@@ -213,6 +215,10 @@ export default class LikeController implements LikeControllerI {
         tuit.stats.likes = howManyLikedTuit - 1;
       } else {
         await LikeController.likeDislikeDao.userLikesTuit(userId, tid);
+        if (userAlreadyDisLikedTuit) {
+          await LikeController.likeDislikeDao.userUnDislikesTuit(userId,tid)
+          tuit.stats.dislikes = howManyDisLikedTuit - 1;
+        }
         tuit.stats.likes = howManyLikedTuit + 1;
       }
       ;
@@ -233,12 +239,18 @@ export default class LikeController implements LikeControllerI {
         profile._id : uid;
     try {
       const userAlreadyDisLikedTuit = await likeDislikeDao.findUserDisLikesTuit(userId, tid);
+      const userAlreadyLikedTuit = await likeDislikeDao.findUserLikesTuit(userId, tid);
       const howManyDisLikedTuit = await likeDislikeDao.countHowManyDisLikedTuit(tid);
+      const howManyLikedTuit = await likeDislikeDao.countHowManyLikedTuit(tid);
       let tuit = await tuitDao.findTuitById(tid);
       if (userAlreadyDisLikedTuit) {
         await likeDislikeDao.userUnDislikesTuit(userId, tid);
         tuit.stats.dislikes = howManyDisLikedTuit - 1;
       } else {
+        if (userAlreadyLikedTuit) {
+          await LikeController.likeDislikeDao.userUnlikesTuit(userId,tid)
+          tuit.stats.likes = howManyLikedTuit - 1;
+        }
         await LikeController.likeDislikeDao.userDisLikesTuit(userId, tid);
         tuit.stats.dislikes = howManyDisLikedTuit + 1;
       }
