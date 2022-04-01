@@ -2,6 +2,7 @@ import LikeDaoI from "../interfaces/LikeDaoI";
 import LikeModel from "../mongoose/likes/LikeModel";
 import Like from "../models/Like";
 import DislikeModel from "../mongoose/dislikes/DislikeModel";
+import Dislike from "../models/Dislike";
 export default class LikeDislikeDao implements LikeDaoI {
     private static likeDislikeDao: LikeDislikeDao | null = null;
     public static getInstance = (): LikeDislikeDao => {
@@ -28,6 +29,11 @@ export default class LikeDislikeDao implements LikeDaoI {
   findAllTuitsLikedByUser = async (uid: string): Promise<Like[]> =>
         LikeModel
             .find({likedBy: uid})
+            .populate("tuit")
+            .exec();
+
+    findAllTuitsDisLikedByUser = async (uid: string): Promise<Dislike[]> =>
+        DislikeModel.find({dislikedBy: uid})
             .populate("tuit")
             .exec();
 

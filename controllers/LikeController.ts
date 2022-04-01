@@ -72,9 +72,42 @@ export default class LikeController implements LikeControllerI {
    * @param {Response} res Represents response to client, including the
    * body formatted as JSON arrays containing the tuit objects that were liked
    */
-  findAllTuitsLikedByUser = (req: Request, res: Response) =>
-      LikeController.likeDislikeDao.findAllTuitsLikedByUser(req.params.uid)
-      .then(likes => res.json(likes));
+  findAllTuitsLikedByUser = (req: Request, res: Response) =>{
+    const uid = req.params.uid;
+    // @ts-ignore
+    const profile = req.session['profile'];
+    const userId = uid === "me" && profile ?
+        profile._id : uid;
+
+    LikeController.likeDislikeDao.findAllTuitsLikedByUser(userId)
+        .then(likes => {
+          const likesNonNullTuits =
+              likes.filter(like => like.tuit);
+          const tuitsFromLikes =
+              likesNonNullTuits.map(like => like.tuit);
+          res.json(tuitsFromLikes);
+        });
+
+  }
+
+  findAllTuitsDisLikedByUser = (req: Request, res: Response) =>{
+    const uid = req.params.uid;
+    // @ts-ignore
+    const profile = req.session['profile'];
+    const userId = uid === "me" && profile ?
+        profile._id : uid;
+
+    LikeController.likeDislikeDao.findAllTuitsDisLikedByUser(userId)
+        .then(dislikes => {
+          const likesNonNullTuits =
+              dislikes.filter(dislike => dislike.tuit);
+          const tuitsFromLikes =
+              likesNonNullTuits.map(dislike => dislike.tuit);
+          res.json(tuitsFromLikes);
+        });
+
+  }
+
 
   /**
    * @param {Request} req Represents request from client, including the
@@ -187,7 +220,7 @@ export default class LikeController implements LikeControllerI {
     LikeController.likeDislikeDao.findUserDisLikesTuit(userId, req.params.tid).then(status => res.send(status))
   }
 
-  userUnlikesTuit(req, res): void {
+  userUnlikesTuit= async (req: Request, res: Response) =>{
   }
 
 };
