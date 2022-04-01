@@ -46,6 +46,7 @@ export default class LikeController implements LikeControllerI {
           LikeController.likeController.userTogglesTuitDisLikes);
       app.get("/users/:uid/likes/:tid", LikeController.likeController.findUserLikesTuit);
       app.get("/users/:uid/dislikes/:tid", LikeController.likeController.findUserDisLikesTuit);
+      app.delete("/users/:uid/undislikes/:tid", LikeController.likeController.userUnDislikesTuit);
     }
     return LikeController.likeController;
   }
@@ -94,10 +95,33 @@ export default class LikeController implements LikeControllerI {
    * @param {Response} res Represents response to client, including status
    * on whether deleting the like was successful or not
    */
-  userUnlikesTuit = (req: Request, res: Response) =>
-      LikeController.likeDislikeDao.userUnlikesTuit(req.params.uid, req.params.tid)
-      .then(status => res.send(status));
+  userUnlikesTuit = (req: Request, res: Response) => {
+    // @ts-ignore
+    const profile = req.session['profile'];
+    const userId = req.params.uid === "me" && profile ?
+        profile._id : req.params.uid;
+    if (userId === "me") {
+      res.sendStatus(503);
+      return;
+    }
 
+    LikeController.likeDislikeDao.userUnlikesTuit(userId, req.params.tid)
+    .then(status => res.send(status));
+  }
+
+  userUnDislikesTuit = (req: Request, res: Response) => {
+    // @ts-ignore
+    const profile = req.session['profile'];
+    const userId = req.params.uid === "me" && profile ?
+        profile._id : req.params.uid;
+    if (userId === "me") {
+      res.sendStatus(503);
+      return;
+    }
+
+    LikeController.likeDislikeDao.userUnDislikesTuit(userId, req.params.tid)
+    .then(status => res.send(status));
+  }
   userTogglesTuitLikes = async (req: Request, res: Response) => {
     const likeDislikeDao = LikeController.likeDislikeDao;
     const tuitDao = LikeController.tuitDao;
