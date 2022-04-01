@@ -104,9 +104,10 @@ export default class LikeController implements LikeControllerI {
       res.sendStatus(503);
       return;
     }
+    console.log("Deleting Like")
 
     LikeController.likeDislikeDao.userUnlikesTuit(userId, req.params.tid)
-    .then(status => res.send(status));
+    .then(status => {console.log(status);res.send(status)});
   }
 
   userUnDislikesTuit = (req: Request, res: Response) => {
