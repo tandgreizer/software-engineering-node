@@ -78,7 +78,10 @@ export default class LikeController implements LikeControllerI {
     const profile = req.session['profile'];
     const userId = uid === "me" && profile ?
         profile._id : uid;
-
+    if (userId === "me") {
+      res.sendStatus(503);
+      return;
+    }
     LikeController.likeDislikeDao.findAllTuitsLikedByUser(userId)
         .then(likes => {
           const likesNonNullTuits =
@@ -96,7 +99,10 @@ export default class LikeController implements LikeControllerI {
     const profile = req.session['profile'];
     const userId = uid === "me" && profile ?
         profile._id : uid;
-
+    if (userId === "me") {
+      res.sendStatus(503);
+      return;
+    }
     LikeController.likeDislikeDao.findAllTuitsDisLikedByUser(userId)
         .then(dislikes => {
           const likesNonNullTuits =
