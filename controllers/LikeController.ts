@@ -105,15 +105,20 @@ export default class LikeController implements LikeControllerI {
       return;
     }
 
+    try {
+      LikeController.likeDislikeDao.userUnlikesTuit(userId, req.params.tid)
+      .then(status => {
+        res.send(status)
+      });
 
-    LikeController.likeDislikeDao.userUnlikesTuit(userId, req.params.tid)
-    .then(status => {res.send(status)});
-
-    let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
-    const howManyLikedTuit = await LikeController.likeDislikeDao.countHowManyLikedTuit(req.params.tid);
-    tuit.stats.likes = howManyLikedTuit;
-    await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
-    res.sendStatus(200);
+      let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
+      const howManyLikedTuit = await LikeController.likeDislikeDao.countHowManyLikedTuit(req.params.tid);
+      tuit.stats.likes = howManyLikedTuit;
+      await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
+      res.sendStatus(200);
+    }catch (e) {
+      res.sendStatus(404);
+    }
   }
 
   userUnDislikesTuit = async (req: Request, res: Response) => {
@@ -125,15 +130,18 @@ export default class LikeController implements LikeControllerI {
       res.sendStatus(503);
       return;
     }
+    try {
+      LikeController.likeDislikeDao.userUnDislikesTuit(userId, req.params.tid)
+      .then(status => res.send(status));
 
-    LikeController.likeDislikeDao.userUnDislikesTuit(userId, req.params.tid)
-    .then(status => res.send(status));
-
-    let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
-    const howManyDisLikedTuit = await LikeController.likeDislikeDao.countHowManyDisLikedTuit(req.params.tid);
-    tuit.stats.dislikes = howManyDisLikedTuit;
-    await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
-    res.sendStatus(200);
+      let tuit = await LikeController.tuitDao.findTuitById(req.params.tid)
+      const howManyDisLikedTuit = await LikeController.likeDislikeDao.countHowManyDisLikedTuit(req.params.tid);
+      tuit.stats.dislikes = howManyDisLikedTuit;
+      await LikeController.tuitDao.updateLikes(req.params.tid, tuit.stats);
+      res.sendStatus(200);
+    } catch (e) {
+      res.sendStatus(404);
+    }
   }
   userTogglesTuitLikes = async (req: Request, res: Response) => {
     const likeDislikeDao = LikeController.likeDislikeDao;
