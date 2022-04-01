@@ -2,13 +2,13 @@ import LikeDaoI from "../interfaces/LikeDaoI";
 import LikeModel from "../mongoose/likes/LikeModel";
 import Like from "../models/Like";
 import DislikeModel from "../mongoose/dislikes/DislikeModel";
-export default class LikeDao implements LikeDaoI {
-    private static likeDao: LikeDao | null = null;
-    public static getInstance = (): LikeDao => {
-        if(LikeDao.likeDao === null) {
-            LikeDao.likeDao = new LikeDao();
+export default class LikeDislikeDao implements LikeDaoI {
+    private static likeDislikeDao: LikeDislikeDao | null = null;
+    public static getInstance = (): LikeDislikeDao => {
+        if(LikeDislikeDao.likeDislikeDao === null) {
+            LikeDislikeDao.likeDislikeDao = new LikeDislikeDao();
         }
-        return LikeDao.likeDao;
+        return LikeDislikeDao.likeDislikeDao;
     }
     private constructor() {}
 
@@ -39,6 +39,8 @@ export default class LikeDao implements LikeDaoI {
   countHowManyLikedTuit =
       async (tid: string): Promise<any> =>
           LikeModel.count({tuit: tid});
+
+
 
 
 
