@@ -75,6 +75,11 @@ export default class TuitController implements TuitControllerI {
         this.tuitDao.createTuit(req.body)
             .then(tuit => res.json(tuit));
 
+    /**
+     * Creates a tuit from the given uid as opposed to just creating a tuit from a json
+     * @param req the request with the uid
+     * @param res the response of the tuit
+     */
   createTuitByUser = (req: Request, res: Response) => {
     // @ts-ignore
     let userId = req.params.uid === "my" && req.session['profile'] ?

@@ -31,7 +31,7 @@ export default class LikeController implements LikeControllerI {
    * Creates singleton controller instance
    * @param {Express} app Express instance to declare the RESTful Web service
    * API
-   * @return TuitController
+   * @return LikeController
    */
   public static getInstance = (app: Express): LikeController => {
     if (LikeController.likeController === null) {
@@ -94,6 +94,13 @@ export default class LikeController implements LikeControllerI {
 
   }
 
+  /**
+   * Retrieves all tuits disliked by a user from the database
+   * @param {Request} req Represents request from client, including the path
+   * parameter uid representing the user disliked the tuits
+   * @param {Response} res Represents response to client, including the
+   * body formatted as JSON arrays containing the tuit objects that were disliked
+   */
   findAllTuitsDisLikedByUser = (req: Request, res: Response) =>{
     const uid = req.params.uid;
     // @ts-ignore
@@ -130,7 +137,16 @@ export default class LikeController implements LikeControllerI {
 
 
 
-
+  /**
+   * @param {Request} req Represents request from client, including the
+   * path parameters uid and tid representing the user that is toggling liking the tuit
+   * and the tuit being toggle
+   *
+   * @param res the status of how the toggle went
+   *
+   * This toggles the like on a tuit. If the user has disliked the tuit that dislike is removed.
+   * Otherwise the tuit is then either liked or unliked depending on if it was already.
+   */
   userTogglesTuitLikes = async (req: Request, res: Response) => {
     const likeDislikeDao = LikeController.likeDislikeDao;
     const tuitDao = LikeController.tuitDao;
@@ -168,6 +184,17 @@ export default class LikeController implements LikeControllerI {
       res.sendStatus(404);
     }
   }
+
+  /**
+   * @param {Request} req Represents request from client, including the
+   * path parameters uid and tid representing the user that is toggling disliking the tuit
+   * and the tuit being toggle
+   *
+   * @param res the status of how the toggle went
+   *
+   * This toggles the dislike on a tuit. If the user has liked the tuit that like is removed.
+   * Otherwise the tuit is then either disliked or undisliked depending on if it was already.
+   */
   userTogglesTuitDisLikes = async (req: Request, res: Response) => {
     const likeDislikeDao = LikeController.likeDislikeDao;
     const tuitDao = LikeController.tuitDao;
@@ -201,6 +228,12 @@ export default class LikeController implements LikeControllerI {
       res.sendStatus(404);
     }
   }
+  /**
+   * Checks if a specific user liked a tuit
+   *
+   * @param req the request
+   * @param res the response if they did
+   */
   findUserLikesTuit = async (req: Request, res: Response) => {
     // @ts-ignore
     let userId = (req.params.uid === "my" || req.params.uid === "me") && req.session['profile'] ?
@@ -214,6 +247,12 @@ export default class LikeController implements LikeControllerI {
     LikeController.likeDislikeDao.findUserLikesTuit(userId, req.params.tid).then(status => res.send(status))
   }
 
+  /**
+   * Checks if a specific user disliked a tuit
+   *
+   * @param req the request
+   * @param res the response if they did
+   */
   findUserDisLikesTuit = async (req: Request, res: Response) => {
     // @ts-ignore
     let userId = (req.params.uid === "my" || req.params.uid === "me") && req.session['profile'] ?
@@ -227,6 +266,11 @@ export default class LikeController implements LikeControllerI {
     LikeController.likeDislikeDao.findUserDisLikesTuit(userId, req.params.tid).then(status => res.send(status))
   }
 
+  /**
+   * Unlikes a tuit by a user. Deprecated and not used now
+   * @param req the request
+   * @param res the response
+   */
   userUnlikesTuit= async (req: Request, res: Response) =>{
   }
 
