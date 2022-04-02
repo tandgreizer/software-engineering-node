@@ -2,13 +2,14 @@ import LikeDaoI from "../interfaces/LikeDaoI";
 import LikeModel from "../mongoose/likes/LikeModel";
 import Like from "../models/Like";
 import DislikeModel from "../mongoose/dislikes/DislikeModel";
-export default class LikeDao implements LikeDaoI {
-    private static likeDao: LikeDao | null = null;
-    public static getInstance = (): LikeDao => {
-        if(LikeDao.likeDao === null) {
-            LikeDao.likeDao = new LikeDao();
+import Dislike from "../models/Dislike";
+export default class LikeDislikeDao implements LikeDaoI {
+    private static likeDislikeDao: LikeDislikeDao | null = null;
+    public static getInstance = (): LikeDislikeDao => {
+        if(LikeDislikeDao.likeDislikeDao === null) {
+            LikeDislikeDao.likeDislikeDao = new LikeDislikeDao();
         }
-        return LikeDao.likeDao;
+        return LikeDislikeDao.likeDislikeDao;
     }
     private constructor() {}
 
@@ -31,14 +32,21 @@ export default class LikeDao implements LikeDaoI {
             .populate("tuit")
             .exec();
 
+    findAllTuitsDisLikedByUser = async (uid: string): Promise<Dislike[]> =>
+        DislikeModel.find({dislikedBy: uid})
+            .populate("tuit")
+            .exec();
+
   findUserLikesTuit =
-      async (uid: string, tid: string) =>
+      async (uid: string, tid: string): Promise<any> =>
           LikeModel.findOne(
               {tuit: tid, likedBy: uid});
 
   countHowManyLikedTuit =
-      async (tid: string) =>
+      async (tid: string): Promise<any> =>
           LikeModel.count({tuit: tid});
+
+
 
 
 
@@ -73,11 +81,11 @@ export default class LikeDao implements LikeDaoI {
         DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
 
     findUserDisLikesTuit =
-        async (uid: string, tid: string) =>
+        async (uid: string, tid: string): Promise<any> =>
             DislikeModel.findOne(
                 {tuit: tid, dislikedBy: uid});
 
     countHowManyDisLikedTuit =
-        async (tid: string) =>
+        async (tid: string): Promise<any> =>
             DislikeModel.count({tuit: tid});
 }
